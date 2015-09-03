@@ -22,7 +22,7 @@ public class ExamPrepProducerConsumer
     private static long result;
     private static long totalSum;
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws InterruptedException
     {
         s1.add(4);
         s1.add(5);
@@ -45,11 +45,18 @@ public class ExamPrepProducerConsumer
         p4.start();
         C1 c1 = new C1();
         c1.start();
+        
+        p1.join();
+        p2.join();
+        p3.join();
+        p4.join();
+        c1.join();
+        System.out.println("Total sum efter alle tråde er døde: " + totalSum);
+        
     }
 
     public static class P1 extends Thread
     {
-
         public void run()
         {
             while (!s1.isEmpty())
@@ -66,16 +73,13 @@ public class ExamPrepProducerConsumer
                 }
                 System.out.println("p 1 result er : " + result);
             }
-//            jeg mangler at stoppe tråden 
             Thread.currentThread().interrupt();
             System.out.println("tråd 1 stoppet");
-        }
-//        
+        }     
     }
 
     public static class P2 extends Thread
     {
-
         public void run()
         {
             while (!s1.isEmpty())
@@ -99,7 +103,6 @@ public class ExamPrepProducerConsumer
 
     public static class P3 extends Thread
     {
-
         public void run()
         {
             while (!s1.isEmpty())
@@ -123,7 +126,6 @@ public class ExamPrepProducerConsumer
 
     public static class P4 extends Thread
     {
-
         public void run()
         {
 
@@ -148,7 +150,6 @@ public class ExamPrepProducerConsumer
 
     public static class C1 extends Thread
     {
-
         public void run()
         {
             while (!s2.isEmpty())
@@ -164,7 +165,6 @@ public class ExamPrepProducerConsumer
                 {
                     Logger.getLogger(ExamPrepProducerConsumer.class.getName()).log(Level.SEVERE, null, ex);
                 }
-
             }
         }
     }
