@@ -21,6 +21,7 @@ public class ExamPrepProducerConsumer
     private static final BlockingQueue<Integer> s2 = new ArrayBlockingQueue(11);
     private static long result;
     private static long totalSum;
+    private static int count;
 
     public static void main(String[] args) throws InterruptedException
     {
@@ -57,6 +58,7 @@ public class ExamPrepProducerConsumer
 
     public static class P1 extends Thread
     {
+
         public void run()
         {
             while (!s1.isEmpty())
@@ -73,6 +75,7 @@ public class ExamPrepProducerConsumer
                 }
                 System.out.println("p 1 result er : " + result);
             }
+
             Thread.currentThread().interrupt();
             System.out.println("tråd 1 stoppet");
         }     
@@ -150,9 +153,11 @@ public class ExamPrepProducerConsumer
 
     public static class C1 extends Thread
     {
+         
         public void run()
         {
-            while (!s2.isEmpty())
+           
+            while (!s2.isEmpty()|| count<12)
             {
                 try
                 {
@@ -161,6 +166,7 @@ public class ExamPrepProducerConsumer
                     System.out.println("Tal fra S2 er: " + take);
                     totalSum = totalSum + take;
                     System.out.println("Total sum er: " + totalSum);
+                    count++;
                 } catch (InterruptedException ex)
                 {
                     Logger.getLogger(ExamPrepProducerConsumer.class.getName()).log(Level.SEVERE, null, ex);
