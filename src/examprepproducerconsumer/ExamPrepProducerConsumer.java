@@ -45,8 +45,6 @@ public class ExamPrepProducerConsumer
         p4.start();
         C1 c1 = new C1();
         c1.start();
-        
-
     }
 
     public static class P1 extends Thread
@@ -56,11 +54,11 @@ public class ExamPrepProducerConsumer
         {
             while (!s1.isEmpty())
             {
-                long n = s1.poll();
-                System.out.println("p1 n er " + n);
-                result = fib(n);
                 try
                 {
+                    long n = s1.poll();
+                    System.out.println("p1 n er " + n);
+                    result = fib(n);
                     s2.put((int) result);
                 } catch (InterruptedException ex)
                 {
@@ -68,9 +66,11 @@ public class ExamPrepProducerConsumer
                 }
                 System.out.println("p 1 result er : " + result);
             }
-            //jeg mangler at stoppe tråden 
-      
+//            jeg mangler at stoppe tråden 
+            Thread.currentThread().interrupt();
+            System.out.println("tråd 1 stoppet");
         }
+//        
     }
 
     public static class P2 extends Thread
@@ -78,14 +78,13 @@ public class ExamPrepProducerConsumer
 
         public void run()
         {
-
             while (!s1.isEmpty())
             {
-                long n = s1.poll();
-                System.out.println("p2 n er " + n);
-                result = fib(n);
                 try
                 {
+                    long n = s1.poll();
+                    System.out.println("p2 n er " + n);
+                    result = fib(n);
                     s2.put((int) result);
                 } catch (InterruptedException ex)
                 {
@@ -93,21 +92,23 @@ public class ExamPrepProducerConsumer
                 }
                 System.out.println("p2 result er : " + result);
             }
-            
+            Thread.currentThread().interrupt();
+            System.out.println("tråd 2 stoppet");
         }
     }
 
     public static class P3 extends Thread
     {
+
         public void run()
         {
             while (!s1.isEmpty())
             {
-                long n = s1.poll();
-                System.out.println("p3 n er " + n);
-                result = fib(n);
                 try
                 {
+                    long n = s1.poll();
+                    System.out.println("p3 n er " + n);
+                    result = fib(n);
                     s2.put((int) result);
                 } catch (InterruptedException ex)
                 {
@@ -115,21 +116,24 @@ public class ExamPrepProducerConsumer
                 }
                 System.out.println("p3 result er : " + result);
             }
-         
+            Thread.currentThread().interrupt();
+            System.out.println("tråd 3 stoppet");
         }
     }
 
     public static class P4 extends Thread
     {
+
         public void run()
         {
+
             while (!s1.isEmpty())
             {
-                long n = s1.poll();
-                System.out.println("p4 n er " + n);
-                result = fib(n);
                 try
                 {
+                    long n = s1.poll();
+                    System.out.println("p4 n er " + n);
+                    result = fib(n);
                     s2.put((int) result);
                 } catch (InterruptedException ex)
                 {
@@ -137,12 +141,14 @@ public class ExamPrepProducerConsumer
                 }
                 System.out.println("p4 result er : " + result);
             }
-      
+            Thread.currentThread().interrupt();
+            System.out.println("tråd 4 stoppet");
         }
     }
 
     public static class C1 extends Thread
     {
+
         public void run()
         {
             while (!s2.isEmpty())
