@@ -5,6 +5,7 @@
  */
 package examprepproducerconsumer;
 
+import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
@@ -22,6 +23,8 @@ public class ExamPrepProducerConsumer
     private static long result;
     private static long totalSum;
     private static int count;
+    private static Scanner sc = new Scanner(System.in);
+    private static C1 c1 = new C1();
 
     public static void main(String[] args) throws InterruptedException
     {
@@ -36,23 +39,27 @@ public class ExamPrepProducerConsumer
         s1.add(36);
         s1.add(37);
         s1.add(42);
-        P1 p1 = new P1();
-        p1.start();
-        P2 p2 = new P2();
-        p2.start();
-        P3 p3 = new P3();
-        p3.start();
-        P4 p4 = new P4();
-        p4.start();
-        C1 c1 = new C1();
+//        P1 p1 = new P1();
+//        p1.start();
+//        P2 p2 = new P2();
+//        p2.start();
+//        P3 p3 = new P3();
+//        p3.start();
+//        P4 p4 = new P4();
+//        p4.start();
+//        C1 c1 = new C1();
+//        
+        System.out.println("Type in number of threads and press enter: ");
+        int numberOfThreads = sc.nextInt();
+        numberOfThreads(numberOfThreads);
         c1.start();
         
-        p1.join();
-        p2.join();
-        p3.join();
-        p4.join();
-        c1.join();
-        System.out.println("Total sum efter alle tråde er døde: " + totalSum);
+   
+//        p2.join();
+//        p3.join();
+//        p4.join();
+//        c1.join();
+//        System.out.println("Total sum efter alle tråde er døde: " + totalSum);
         
     }
 
@@ -66,91 +73,20 @@ public class ExamPrepProducerConsumer
                 try
                 {
                     long n = s1.poll();
-                    System.out.println("p1 n er " + n);
+//                    System.out.println("p1 n er " + n);
                     result = fib(n);
                     s2.put((int) result);
                 } catch (InterruptedException ex)
                 {
                     Logger.getLogger(ExamPrepProducerConsumer.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                System.out.println("p 1 result er : " + result);
+//                System.out.println("p 1 result er : " + result);
             }
 
             Thread.currentThread().interrupt();
-            System.out.println("tråd 1 stoppet");
+//            System.out.println("tråd 1 stoppet");
         }     
     }
-
-    public static class P2 extends Thread
-    {
-        public void run()
-        {
-            while (!s1.isEmpty())
-            {
-                try
-                {
-                    long n = s1.poll();
-                    System.out.println("p2 n er " + n);
-                    result = fib(n);
-                    s2.put((int) result);
-                } catch (InterruptedException ex)
-                {
-                    Logger.getLogger(ExamPrepProducerConsumer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.out.println("p2 result er : " + result);
-            }
-            Thread.currentThread().interrupt();
-            System.out.println("tråd 2 stoppet");
-        }
-    }
-
-    public static class P3 extends Thread
-    {
-        public void run()
-        {
-            while (!s1.isEmpty())
-            {
-                try
-                {
-                    long n = s1.poll();
-                    System.out.println("p3 n er " + n);
-                    result = fib(n);
-                    s2.put((int) result);
-                } catch (InterruptedException ex)
-                {
-                    Logger.getLogger(ExamPrepProducerConsumer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.out.println("p3 result er : " + result);
-            }
-            Thread.currentThread().interrupt();
-            System.out.println("tråd 3 stoppet");
-        }
-    }
-
-    public static class P4 extends Thread
-    {
-        public void run()
-        {
-
-            while (!s1.isEmpty())
-            {
-                try
-                {
-                    long n = s1.poll();
-                    System.out.println("p4 n er " + n);
-                    result = fib(n);
-                    s2.put((int) result);
-                } catch (InterruptedException ex)
-                {
-                    Logger.getLogger(ExamPrepProducerConsumer.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.out.println("p4 result er : " + result);
-            }
-            Thread.currentThread().interrupt();
-            System.out.println("tråd 4 stoppet");
-        }
-    }
-
     public static class C1 extends Thread
     {
          
@@ -185,4 +121,88 @@ public class ExamPrepProducerConsumer
             return fib(n - 1) + fib(n - 2);
         }
     }
+    public static void numberOfThreads(int numberOfThreads)
+    {
+        P1[] threads;
+        threads = new P1[numberOfThreads];
+        for (int i = 0; i < threads.length; i++)
+        {
+            threads[i] = new P1();
+            threads[i].start();
+        }
+    }
+
+
+
+//    public static class P2 extends Thread
+//    {
+//        public void run()
+//        {
+//            while (!s1.isEmpty())
+//            {
+//                try
+//                {
+//                    long n = s1.poll();
+//                    System.out.println("p2 n er " + n);
+//                    result = fib(n);
+//                    s2.put((int) result);
+//                } catch (InterruptedException ex)
+//                {
+//                    Logger.getLogger(ExamPrepProducerConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                System.out.println("p2 result er : " + result);
+//            }
+//            Thread.currentThread().interrupt();
+//            System.out.println("tråd 2 stoppet");
+//        }
+//    }
+//
+//    public static class P3 extends Thread
+//    {
+//        public void run()
+//        {
+//            while (!s1.isEmpty())
+//            {
+//                try
+//                {
+//                    long n = s1.poll();
+//                    System.out.println("p3 n er " + n);
+//                    result = fib(n);
+//                    s2.put((int) result);
+//                } catch (InterruptedException ex)
+//                {
+//                    Logger.getLogger(ExamPrepProducerConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                System.out.println("p3 result er : " + result);
+//            }
+//            Thread.currentThread().interrupt();
+//            System.out.println("tråd 3 stoppet");
+//        }
+//    }
+//
+//    public static class P4 extends Thread
+//    {
+//        public void run()
+//        {
+//
+//            while (!s1.isEmpty())
+//            {
+//                try
+//                {
+//                    long n = s1.poll();
+//                    System.out.println("p4 n er " + n);
+//                    result = fib(n);
+//                    s2.put((int) result);
+//                } catch (InterruptedException ex)
+//                {
+//                    Logger.getLogger(ExamPrepProducerConsumer.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                System.out.println("p4 result er : " + result);
+//            }
+//            Thread.currentThread().interrupt();
+//            System.out.println("tråd 4 stoppet");
+//        }
+//    }
+
+    
 }
